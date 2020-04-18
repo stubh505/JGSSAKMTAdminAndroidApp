@@ -7,23 +7,13 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main">
 
-    <fragment
-        android:id="@+id/nav_main_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/mobile_navigation" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/addNewBlogCardView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:layout_marginTop="30dp"
+        android:onClick="addNewBlog"
         app:cardCornerRadius="8dp"
         app:contentPadding="10dp"
         app:layout_constraintBottom_toTopOf="@id/addNewEventCardView"
@@ -55,10 +45,10 @@
                 android:text="@string/add_new_blog"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/add_blog_image"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_blog_image"
                 tools:layout_editor_absoluteY="274dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -70,6 +60,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
+        android:onClick="editBlog"
         app:cardCornerRadius="8dp"
         app:contentPadding="10dp"
         app:layout_constraintBottom_toTopOf="@id/editEventCardView"
@@ -100,10 +91,10 @@
                 android:text="@string/edit_blog"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/editBlogImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editBlogImage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -113,6 +104,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
+        android:onClick="addNewEvent"
         app:cardCornerRadius="8dp"
         app:contentPadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -145,10 +137,10 @@
                 android:text="@string/add_new_event"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/addEventImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addEventImage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -158,6 +150,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
+        android:onClick="editEvent"
         app:cardCornerRadius="8dp"
         app:contentPadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -188,10 +181,10 @@
                 android:text="@string/edit_event"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/editEventImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editEventImage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

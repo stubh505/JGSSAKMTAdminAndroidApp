@@ -18,6 +18,18 @@
     <string name="edit_blog">Edit Existing Blog</string>
     <string name="add_new_event">Add New Event</string>
     <string name="edit_event">Edit Existing Event</string>
+
+    <!-- Blog Page Strings-->
     <string name="title_activity_blog">BlogActivity</string>
+    <string name="blog_icon">Blog Icon</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_add_blog">AddBlogActivity</string>
+    <string name="title_activity_edit_blog">EditBlogActivity</string>
+    <string name="title_activity_event">EventActivity</string>
+    <string name="title_activity_add_event">AddEventActivity</string>
+    <string name="title_activity_edit_event">EditEventActivity</string>
+    <string name="title_activity_page">PageActivity</string>
+    <string name="title_activity_edit_page">EditPageActivity</string>
 
 </resources>
