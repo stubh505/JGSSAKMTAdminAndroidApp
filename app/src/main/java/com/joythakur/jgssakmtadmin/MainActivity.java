@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void editBlog(View v) {
-        Intent i = new Intent(this, EditBlogActivity.class);
+        Intent i = new Intent(this, BlogActivity.class);
         startActivity(i);
     }
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void editEvent(View v) {
-        Intent i = new Intent(this, EditEventActivity.class);
+        Intent i = new Intent(this, EventActivity.class);
         startActivity(i);
     }
 }
