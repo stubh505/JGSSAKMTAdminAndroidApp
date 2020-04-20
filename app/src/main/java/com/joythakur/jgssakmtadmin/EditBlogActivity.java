@@ -1,5 +1,6 @@
 package com.joythakur.jgssakmtadmin;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -33,12 +34,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class EditBlogActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private Blogs blog;
-    private GetBlog getBlog;
     private Integer blogId;
 
     @Override
@@ -69,7 +70,7 @@ public class EditBlogActivity extends AppCompatActivity {
 
         blogId = getIntent().getIntExtra("blogId", 1001);
 
-        getBlog = new GetBlog();
+        GetBlog getBlog = new GetBlog();
         getBlog.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/BlogsAPI/getBlog/"+blogId);
     }
 
@@ -85,17 +86,6 @@ public class EditBlogActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    private void setData(Blogs b) {
-        EditText blogTitle = findViewById(R.id.blogTitleEditText);
-        blogTitle.setText(b.getTitle());
-        EditText blogExcerpt = findViewById(R.id.blogExcerptEditText);
-        blogExcerpt.setText(b.getExcerpt());
-        EditText blogImgUrl = findViewById(R.id.blogImgurlEditText);
-        blogImgUrl.setText(b.getImgUrl());
-        EditText blogContent = findViewById(R.id.blogEditContentText);
-        blogContent.setText(b.getContent());
     }
 
     public void saveEdits(View view) {
@@ -135,14 +125,14 @@ public class EditBlogActivity extends AppCompatActivity {
                 connection.connect();
                 InputStream inputStream = connection.getInputStream();
                 InputStreamReader ips = new InputStreamReader(inputStream);
-                String res = "";
+                StringBuilder res = new StringBuilder();
                 int data = ips.read();
                 while (data != -1) {
-                    res = res + (char) data;
+                    res.append((char) data);
                     data = ips.read();
                 }
 
-                jsonObject = new JSONObject(res);
+                jsonObject = new JSONObject(res.toString());
 
                 System.out.println(jsonObject);
 
@@ -152,7 +142,7 @@ public class EditBlogActivity extends AppCompatActivity {
                 b.setImgUrl(jsonObject.getString("imgUrl"));
                 b.setContent(jsonObject.getString("content"));
 
-                return res;
+                return res.toString();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -165,6 +155,18 @@ public class EditBlogActivity extends AppCompatActivity {
             super.onPostExecute(s);
             setData(b);
         }
+
+        private void setData(Blogs b) {
+            EditText blogTitle = findViewById(R.id.blogTitleEditText);
+            blogTitle.setText(b.getTitle());
+            EditText blogExcerpt = findViewById(R.id.blogExcerptEditText);
+            blogExcerpt.setText(b.getExcerpt());
+            EditText blogImgUrl = findViewById(R.id.blogImgurlEditText);
+            blogImgUrl.setText(b.getImgUrl());
+            EditText blogContent = findViewById(R.id.blogEditContentText);
+            blogContent.setText(b.getContent());
+        }
+
     }
 
     private class CallAPI extends AsyncTask<String, String, String> {
@@ -178,7 +180,7 @@ public class EditBlogActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String urlString = params[0]; // URL to call
             String data = params[1]; //data to post
-            OutputStream out = null;
+//            OutputStream out = null;
 
             try {
                 URL url = new URL(urlString);
@@ -197,14 +199,14 @@ public class EditBlogActivity extends AppCompatActivity {
 //                out.close();
 
                 try(OutputStream os = urlConnection.getOutputStream()) {
-                    byte[] input = data.getBytes("utf-8");
+                    byte[] input = data.getBytes(StandardCharsets.UTF_8);
                     os.write(input, 0, input.length);
                 }
 
                 try(BufferedReader br = new BufferedReader(
-                        new InputStreamReader(urlConnection.getInputStream(), "utf-8"))) {
+                        new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
                     StringBuilder response = new StringBuilder();
-                    String responseLine = null;
+                    String responseLine;
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
@@ -217,5 +219,17 @@ public class EditBlogActivity extends AppCompatActivity {
 
             return null;
         }
+
+        @Override
+        public void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Intent i = new Intent(EditBlogActivity.this, ViewBlogActivity.class);
+            i.putExtra("blogId", blogId);
+            startActivity(i);
+        }
+    }
+
+    public void cancel(View view) {
+        finish();
     }
 }

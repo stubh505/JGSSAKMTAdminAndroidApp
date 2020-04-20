@@ -31,6 +31,20 @@
     <string name="edit_blog_content">Edit Blog Content</string>
     <string name="tap_here">Tap here to edit…</string>
     <string name="save_edit">Save Edits</string>
+    
+    <!-- Add Blog Strings-->
+    <string name="add_blog_title">Add Blog Title</string>
+    <string name="add_blog_excerpt">Add Blog Excerpt</string>
+    <string name="add_blog_image">Add Blog Image Link</string>
+    <string name="add_blog_content">Add Blog Content</string>
+    <string name="save_add">Add Blog</string>
+
+    <!-- View Blog Strings-->
+    <string name="view_blog_title">View Blog Title</string>
+    <string name="view_blog_image">View Blog Image</string>
+    <string name="view_blog_posted">View Blog Posted</string>
+    <string name="view_blog_edited">View Blog Edited</string>
+    <string name="view_blog_content">View Blog Content</string>
 
     <!-- Remove or change this placeholder text -->
     <string name="title_activity_add_blog">AddBlogActivity</string>
@@ -40,5 +54,6 @@
     <string name="title_activity_edit_event">EditEventActivity</string>
     <string name="title_activity_page">PageActivity</string>
     <string name="title_activity_edit_page">EditPageActivity</string>
+    <string name="title_activity_view_blog">ViewBlogActivity</string>
 
 </resources>

@@ -12,10 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".ViewBlogActivity"
+            android:label="@string/title_activity_view_blog"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".EditPageActivity"
             android:label="@string/title_activity_edit_page"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PageActivity"
@@ -24,10 +28,12 @@
         <activity
             android:name=".EditEventActivity"
             android:label="@string/title_activity_edit_event"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddEventActivity"
             android:label="@string/title_activity_add_event"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EventActivity"
@@ -36,10 +42,12 @@
         <activity
             android:name=".EditBlogActivity"
             android:label="@string/title_activity_edit_blog"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddBlogActivity"
             android:label="@string/title_activity_add_blog"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BlogActivity"
