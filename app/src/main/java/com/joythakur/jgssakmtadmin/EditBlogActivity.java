@@ -1,5 +1,6 @@
 package com.joythakur.jgssakmtadmin;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.joythakur.jgssakmtadmin.ui.model.Blogs;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -52,8 +54,24 @@ public class EditBlogActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AlertDialog alert = new AlertDialog.Builder(EditBlogActivity.this)
+                        .setTitle(R.string.delete_blog)
+                        .setMessage(R.string.del_blog_body)
+                        .setIcon(R.drawable.ic_delete_dark)
+                        .setPositiveButton(R.string.button_affirmative, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                CallDeleteAPI cd = new CallDeleteAPI();
+                                cd.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/BlogsAPI/deleteBlog/"+blogId);
+                            }
+                        })
+                        .setNegativeButton(R.string.button_negative, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                alert.show();
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -226,6 +244,54 @@ public class EditBlogActivity extends AppCompatActivity {
             Intent i = new Intent(EditBlogActivity.this, ViewBlogActivity.class);
             i.putExtra("blogId", blogId);
             startActivity(i);
+        }
+    }
+
+    private class CallDeleteAPI extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String urlString = params[0]; // URL to call
+//            String data = params[1]; //data to post
+//            OutputStream out = null;
+
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("DELETE");
+                urlConnection.connect();
+
+//                try(OutputStream os = urlConnection.getOutputStream()) {
+//                    byte[] input = data.getBytes(StandardCharsets.UTF_8);
+//                    os.write(input, 0, input.length);
+//                }
+
+                try(BufferedReader br = new BufferedReader(
+                        new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine;
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+                    System.out.println(response.toString());
+                }
+                //urlConnection.connect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(String s) {
+            super.onPostExecute(s);
+            finish();
         }
     }
 

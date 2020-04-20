@@ -1,5 +1,6 @@
 package com.joythakur.jgssakmtadmin;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -53,8 +54,8 @@ public class BlogActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent i = new Intent(BlogActivity.this, AddBlogActivity.class);
+                startActivity(i);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -156,5 +157,11 @@ public class BlogActivity extends AppCompatActivity {
             recyclerView.setAdapter(recyclerViewAdapter);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 }
