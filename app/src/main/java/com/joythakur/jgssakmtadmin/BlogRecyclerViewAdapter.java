@@ -103,6 +103,7 @@ public class BlogRecyclerViewAdapter extends RecyclerView.Adapter<BlogRecyclerVi
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, EditBlogActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("blogId", mDataSet.get(position).getBlogId());
                 context.startActivity(i);
             }
