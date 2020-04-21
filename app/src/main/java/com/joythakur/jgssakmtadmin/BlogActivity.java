@@ -5,13 +5,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.joythakur.jgssakmtadmin.ui.model.Blogs;
 
 import androidx.navigation.NavController;
@@ -29,17 +26,15 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class BlogActivity extends AppCompatActivity {
 
     private GetBlogs getBlogs;
     private AppBarConfiguration mAppBarConfiguration;
-    private ArrayList<Blogs> blogs;
+    private ArrayList<Blogs> blogList;
     private BlogRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
@@ -67,13 +62,13 @@ public class BlogActivity extends AppCompatActivity {
                 .setDrawerLayout(drawer)
                 .build();
 
-        blogs = new ArrayList<>();
+        blogList = new ArrayList<>();
 
         getBlogs = new GetBlogs();
 
         getBlogs.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/BlogsAPI/getAllBlogs");
 
-        recyclerViewAdapter = new BlogRecyclerViewAdapter(blogs, getApplicationContext());
+        recyclerViewAdapter = new BlogRecyclerViewAdapter(blogList, getApplicationContext());
 
         recyclerView = findViewById(R.id.blogRecyclerView);
 
@@ -109,16 +104,16 @@ public class BlogActivity extends AppCompatActivity {
                 connection.connect();
                 InputStream inputStream = connection.getInputStream();
                 InputStreamReader ips = new InputStreamReader(inputStream);
-                String res = "";
+                StringBuilder res = new StringBuilder();
                 int data = ips.read();
                 while (data != -1) {
-                    res = res + (char) data;
+                    res.append((char) data);
                     data = ips.read();
                 }
 
                 Blogs b;
 
-                jsonArray = new JSONArray(res);
+                jsonArray = new JSONArray(res.toString());
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -127,7 +122,7 @@ public class BlogActivity extends AppCompatActivity {
                     b.setImgUrl(jsonObject.getString("imgUrl"));
                     b.setTitle(jsonObject.getString("title"));
                     b.setExcerpt(jsonObject.getString("excerpt"));
-                    blogs.add(b);
+                    blogList.add(b);
                 }
 
                 /*for (int i = 0; i < jsonArray.length(); i++) {
@@ -142,7 +137,7 @@ public class BlogActivity extends AppCompatActivity {
                 Type collectionType = new TypeToken<Collection<Blogs>>(){}.getType();
                 blogs = gson.fromJson(String.valueOf(jsonArray), collectionType);*/
 
-                return res;
+                return res.toString();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -153,7 +148,6 @@ public class BlogActivity extends AppCompatActivity {
         @Override
         public void onPostExecute(String s) {
             super.onPostExecute(s);
-            // recyclerViewAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(recyclerViewAdapter);
         }
 
@@ -162,6 +156,8 @@ public class BlogActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        TextView tv = findViewById(R.id.noBlogs);
+        tv.setAlpha(0.0f);
         recyclerViewAdapter.notifyDataSetChanged();
     }
 }

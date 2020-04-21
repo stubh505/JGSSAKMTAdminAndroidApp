@@ -13,9 +13,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ViewEventActivity"
+            android:label="@string/title_activity_view_event"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".ViewBlogActivity"
             android:label="@string/title_activity_view_blog"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EditPageActivity"
             android:label="@string/title_activity_edit_page"

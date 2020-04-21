@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -49,8 +50,6 @@ public class ViewBlogActivity extends AppCompatActivity {
     private TextView posted;
     private TextView edited;
     private ImageView blogImage;
-    private String editedS;
-    private String postedS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,18 +127,11 @@ public class ViewBlogActivity extends AppCompatActivity {
 
                 jsonObject = new JSONObject(res.toString());
 
-                System.out.println(jsonObject);
-
                 b = new Blogs();
                 b.setExcerpt(jsonObject.getString("excerpt"));
                 b.setTitle(jsonObject.getString("title"));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    b.setEdited(LocalDateTime.parse(jsonObject.getString("edited")));
-                    b.setPosted(LocalDateTime.parse(jsonObject.getString("posted")));
-                } else {
-                    editedS = jsonObject.getString("edited");
-                    postedS = jsonObject.getString("posted");
-                }
+                b.setEdited(Timestamp.valueOf(jsonObject.getString("edited").replace('T', ' ')));
+                b.setPosted(Timestamp.valueOf(jsonObject.getString("posted").replace('T', ' ')));
                 b.setImgUrl(jsonObject.getString("imgUrl"));
                 b.setContent(jsonObject.getString("content"));
 
@@ -161,14 +153,8 @@ public class ViewBlogActivity extends AppCompatActivity {
             Spanned htmlAsSpanned = Html.fromHtml(b.getContent());
             blogContent.setText(htmlAsSpanned);
             blogTitle.setText(b.getTitle());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm");
-                posted.setText(b.getPosted().format(formatter));
-                edited.setText(b.getEdited().format(formatter));
-            } else {
-                posted.setText(postedS);
-                edited.setText(editedS);
-            }
+            posted.setText(b.getPosted().toString());
+            edited.setText(b.getEdited().toString());
 
             new DownloadImageTask(blogImage).execute(b.getImgUrl());
         }

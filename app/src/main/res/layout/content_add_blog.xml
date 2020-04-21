@@ -156,8 +156,6 @@
             app:layout_constraintStart_toEndOf="@id/blogAddSave"
             app:layout_constraintTop_toBottomOf="@+id/blogAddContentText" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </ScrollView>

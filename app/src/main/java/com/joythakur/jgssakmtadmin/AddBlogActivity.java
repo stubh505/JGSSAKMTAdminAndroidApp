@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -137,6 +138,7 @@ public class AddBlogActivity extends AppCompatActivity {
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
+                    Toast.makeText(AddBlogActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     blogId = Integer.parseInt(response.toString());
                 }
                 //urlConnection.connect();

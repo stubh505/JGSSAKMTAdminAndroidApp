@@ -11,7 +11,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-
+    <string name="no_content">Nothing to load. Add something…</string>
     <string name="home_second">Home Second</string>
 
     <!-- Home page strings-->
@@ -23,6 +23,8 @@
     <!-- Blog Page Strings-->
     <string name="title_activity_blog">BlogActivity</string>
     <string name="blog_icon">Blog Icon</string>
+    <string name="blog_excerpt">Blog Excerpt</string>
+    <string name="blog_title">Blog Title</string>
 
     <!-- Edit Blog Strings-->
     <string name="edit_blog_title">Edit Blog Title</string>
@@ -31,7 +33,7 @@
     <string name="edit_blog_content">Edit Blog Content</string>
     <string name="tap_here">Tap here to edit…</string>
     <string name="save_edit">Save Edits</string>
-    
+
     <!-- Add Blog Strings-->
     <string name="add_blog_title">Add Blog Title</string>
     <string name="add_blog_excerpt">Add Blog Excerpt</string>
@@ -52,6 +54,22 @@
     <string name="button_affirmative">Yes</string>
     <string name="button_negative">Cancel</string>
 
+    <!-- Event Page Strings-->
+    <string name="event_icon">Event Icon</string>
+    <string name="event_title">Event Title</string>
+    <string name="event_start">Event Start</string>
+    <string name="event_end">Event End</string>
+    <string name="event_excerpt">Event Excerpt</string>
+
+    <!-- Add Event Strings-->
+    <string name="add_event_title">Add Event Title</string>
+    <string name="add_event_excerpt">Add Event Excerpt</string>
+    <string name="add_event_image">Add Event Image Link</string>
+    <string name="add_event_start">Add Event Start Time</string>
+    <string name="add_event_end">Add Event End Time</string>
+    <string name="add_event_content">Add Event Content</string>
+    <string name="save_event">Add Event</string>
+
     <!-- Remove or change this placeholder text -->
     <string name="title_activity_add_blog">AddBlogActivity</string>
     <string name="title_activity_edit_blog">EditBlogActivity</string>
@@ -61,5 +79,6 @@
     <string name="title_activity_page">PageActivity</string>
     <string name="title_activity_edit_page">EditPageActivity</string>
     <string name="title_activity_view_blog">ViewBlogActivity</string>
+    <string name="title_activity_view_event">ViewEventActivity</string>
 
 </resources>

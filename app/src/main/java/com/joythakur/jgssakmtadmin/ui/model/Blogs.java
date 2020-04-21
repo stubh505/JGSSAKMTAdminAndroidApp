@@ -1,6 +1,6 @@
 package com.joythakur.jgssakmtadmin.ui.model;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class Blogs {
 
@@ -8,8 +8,8 @@ public class Blogs {
     private String title;
     private String content;
     private String imgUrl;
-    private LocalDateTime posted;
-    private LocalDateTime edited;
+    private Timestamp posted;
+    private Timestamp edited;
     private String excerpt;
 
     public String getExcerpt() {
@@ -20,19 +20,19 @@ public class Blogs {
         this.excerpt = excerpt;
     }
 
-    public LocalDateTime getPosted() {
+    public Timestamp getPosted() {
         return posted;
     }
 
-    public void setPosted(LocalDateTime posted) {
+    public void setPosted(Timestamp posted) {
         this.posted = posted;
     }
 
-    public LocalDateTime getEdited() {
+    public Timestamp getEdited() {
         return edited;
     }
 
-    public void setEdited(LocalDateTime edited) {
+    public void setEdited(Timestamp edited) {
         this.edited = edited;
     }
 

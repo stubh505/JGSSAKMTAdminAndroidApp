@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -41,7 +42,6 @@ import java.nio.charset.StandardCharsets;
 public class EditBlogActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private Blogs blog;
     private Integer blogId;
 
     @Override
@@ -152,8 +152,6 @@ public class EditBlogActivity extends AppCompatActivity {
 
                 jsonObject = new JSONObject(res.toString());
 
-                System.out.println(jsonObject);
-
                 b = new Blogs();
                 b.setExcerpt(jsonObject.getString("excerpt"));
                 b.setTitle(jsonObject.getString("title"));
@@ -228,7 +226,7 @@ public class EditBlogActivity extends AppCompatActivity {
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    System.out.println(response.toString());
+                    //Toast.makeText(EditBlogActivity.this, response, Toast.LENGTH_SHORT).show();
                 }
                 //urlConnection.connect();
             } catch (Exception e) {
@@ -256,20 +254,13 @@ public class EditBlogActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String urlString = params[0]; // URL to call
-//            String data = params[1]; //data to post
-//            OutputStream out = null;
+            String urlString = params[0];
 
             try {
                 URL url = new URL(urlString);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("DELETE");
                 urlConnection.connect();
-
-//                try(OutputStream os = urlConnection.getOutputStream()) {
-//                    byte[] input = data.getBytes(StandardCharsets.UTF_8);
-//                    os.write(input, 0, input.length);
-//                }
 
                 try(BufferedReader br = new BufferedReader(
                         new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
@@ -278,9 +269,8 @@ public class EditBlogActivity extends AppCompatActivity {
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    System.out.println(response.toString());
+                    //Toast.makeText(EditBlogActivity.this, response, Toast.LENGTH_SHORT).show();
                 }
-                //urlConnection.connect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
