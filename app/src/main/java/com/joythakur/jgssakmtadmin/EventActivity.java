@@ -75,7 +75,7 @@ public class EventActivity extends AppCompatActivity {
 
         recyclerViewAdapter = new EventRecyclerViewAdapter(eventList, getApplicationContext());
 
-        recyclerView = findViewById(R.id.blogRecyclerView);
+        recyclerView = findViewById(R.id.eventRecyclerView);
 
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -124,9 +124,8 @@ public class EventActivity extends AppCompatActivity {
                     b.setEventId(jsonObject.getInt("eventId"));
                     b.setImgUrl(jsonObject.getString("imgUrl"));
                     b.setName(jsonObject.getString("name"));
-                    Timestamp ts = Timestamp.valueOf(jsonObject.getString("endTime"));
-                    System.out.println(ts.getTime());
-                    //b.setEndTime(ts.toLocalDateTime());
+                    b.setEndTime(Timestamp.valueOf(jsonObject.getString("endTime").replace('T', ' ')));
+                    b.setStartTime(Timestamp.valueOf(jsonObject.getString("startTime").replace('T', ' ')));
                     b.setExcerpt(jsonObject.getString("excerpt"));
                     eventList.add(b);
                 }

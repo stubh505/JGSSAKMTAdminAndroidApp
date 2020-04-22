@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.joythakur.jgssakmtadmin.ui.model.Events;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder> {
 
@@ -32,6 +34,8 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
         private final ImageView eventImage;
         private final TextView eventTitle;
         private final TextView eventExcerpt;
+        private final TextView eventStart;
+        private final TextView eventEnd;
 
         ViewHolder(View v) {
             super(v);
@@ -47,6 +51,16 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             eventImage = v.findViewById(R.id.eventImage);
             eventTitle = v.findViewById(R.id.eventTitle);
             eventExcerpt = v.findViewById(R.id.eventExcerpt);
+            eventEnd = v.findViewById(R.id.eventEnd);
+            eventStart = v.findViewById(R.id.eventStart);
+        }
+
+        TextView getEventStart() {
+            return eventStart;
+        }
+
+        TextView getEventEnd() {
+            return eventEnd;
         }
 
         TextView getEventTitle() {
@@ -94,10 +108,15 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
 
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
+
+        SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yy hh:mm a", Locale.ENGLISH);
+
         viewHolder.getEventTitle().setText(mDataSet.get(position).getName());
         new DownloadImageTask(viewHolder.getEventImage())
                 .execute(mDataSet.get(position).getImgUrl());
         viewHolder.getEventExcerpt().setText(mDataSet.get(position).getExcerpt());
+        viewHolder.getEventEnd().setText(format.format(mDataSet.get(position).getEndTime()));
+        viewHolder.getEventStart().setText(format.format(mDataSet.get(position).getStartTime()));
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
