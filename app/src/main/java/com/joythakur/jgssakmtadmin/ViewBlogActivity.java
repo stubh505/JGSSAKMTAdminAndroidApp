@@ -40,6 +40,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 public class ViewBlogActivity extends AppCompatActivity {
 
@@ -153,8 +154,9 @@ public class ViewBlogActivity extends AppCompatActivity {
             Spanned htmlAsSpanned = Html.fromHtml(b.getContent());
             blogContent.setText(htmlAsSpanned);
             blogTitle.setText(b.getTitle());
-            posted.setText(b.getPosted().toString());
-            edited.setText(b.getEdited().toString());
+            SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yy hh:mm a", Locale.ENGLISH);
+            posted.setText(format.format(b.getPosted()));
+            edited.setText(format.format(b.getEdited()));
 
             new DownloadImageTask(blogImage).execute(b.getImgUrl());
         }

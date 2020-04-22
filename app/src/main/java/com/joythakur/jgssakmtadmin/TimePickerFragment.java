@@ -10,13 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
     private TimePickedListener listener;
 
-    public static interface TimePickedListener {
+    public interface TimePickedListener {
         void onTimePicked(String time);
     }
 
@@ -36,6 +37,6 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        listener.onTimePicked(Integer.toString(hourOfDay)+":"+Integer.toString(minute));
+        listener.onTimePicked(String.format("%02d", hourOfDay) +":"+ String.format("%02d", minute));
     }
 }

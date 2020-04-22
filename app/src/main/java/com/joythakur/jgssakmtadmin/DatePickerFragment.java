@@ -10,17 +10,16 @@ import androidx.fragment.app.DialogFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    private static final String TAG = "DatePickerFragment";
-
-    private SimpleDateFormat dateFormatterEntry = new SimpleDateFormat("dd/MMM/yyyy");
+    private SimpleDateFormat dateFormatterEntry = new SimpleDateFormat("dd/MMM/yyyy", Locale.ENGLISH);
     private Calendar calendar;
 
     private DatePickedListener listener;
 
-    public static interface DatePickedListener {
+    public interface DatePickedListener {
         void onDatePicked(String date);
     }
 

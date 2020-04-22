@@ -1,6 +1,6 @@
 package com.joythakur.jgssakmtadmin.ui.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Blogs {
 
@@ -8,8 +8,8 @@ public class Blogs {
     private String title;
     private String content;
     private String imgUrl;
-    private Timestamp posted;
-    private Timestamp edited;
+    private Date posted;
+    private Date edited;
     private String excerpt;
 
     public String getExcerpt() {
@@ -20,19 +20,19 @@ public class Blogs {
         this.excerpt = excerpt;
     }
 
-    public Timestamp getPosted() {
+    public Date getPosted() {
         return posted;
     }
 
-    public void setPosted(Timestamp posted) {
+    public void setPosted(Date posted) {
         this.posted = posted;
     }
 
-    public Timestamp getEdited() {
+    public Date getEdited() {
         return edited;
     }
 
-    public void setEdited(Timestamp edited) {
+    public void setEdited(Date edited) {
         this.edited = edited;
     }
 

@@ -68,6 +68,8 @@
     <string name="add_event_start">Add Event Start Time</string>
     <string name="add_event_end">Add Event End Time</string>
     <string name="add_event_content">Add Event Content</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
     <string name="save_event">Add Event</string>
 
     <!-- Remove or change this placeholder text -->
@@ -80,5 +82,6 @@
     <string name="title_activity_edit_page">EditPageActivity</string>
     <string name="title_activity_view_blog">ViewBlogActivity</string>
     <string name="title_activity_view_event">ViewEventActivity</string>
+    <string name="default_time">00:00</string>
 
 </resources>

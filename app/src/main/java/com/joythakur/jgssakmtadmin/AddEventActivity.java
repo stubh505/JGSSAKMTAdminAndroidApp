@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.joythakur.jgssakmtadmin.ui.model.Events;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
@@ -31,6 +32,11 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddEventActivity extends FragmentActivity implements
         DatePickerFragment.DatePickedListener, TimePickerFragment.TimePickedListener {
@@ -84,11 +90,13 @@ public class AddEventActivity extends FragmentActivity implements
 //    }
 
     public void showDatePickerDialog(View v) {
+        dateView = (EditText) v;
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public void showTimePickerDialog(View v) {
+        timeView = (EditText) v;
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
@@ -113,18 +121,52 @@ public class AddEventActivity extends FragmentActivity implements
         EditText eventContent = findViewById(R.id.eventAddContentText);
         String content = eventContent.getText().toString();
 
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("title", title);
-            jsonObject.put("imgUrl", imgUrl);
-            jsonObject.put("excerpt", excerpt);
-            jsonObject.put("content", content);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        if (!title.matches("[\\w.?:;]+")) {
+            Snackbar.make(view, "Please enter a valid event name", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } else if (excerpt.matches("[\\w.?:;]+")) {
+            Snackbar.make(view, "Please enter a valid event excerpt", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } else if (content.matches("[\\w.?:;]+")) {
+            Snackbar.make(view, "Please enter a valid event description", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } else {
+            EditText startDateEdit = findViewById(R.id.addEventStartDateEdit);
+            EditText startTimeEdit = findViewById(R.id.addEventStartTimeEdit);
+            EditText endDateEdit = findViewById(R.id.addEventEndDateEdit);
+            EditText endTimeEdit = findViewById(R.id.addEventEndTimeEdit);
 
-        CallAPI call = new CallAPI();
-        call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/EventsAPI/addNewEvent", jsonObject.toString());
+            Date startDate = null, endDate = null;
+            String startDateTime = startDateEdit.getText().toString() + " " + startTimeEdit.getText().toString();
+            String endDateTime = endDateEdit.getText().toString() + " " + endTimeEdit.getText().toString();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy hh:mm", Locale.ENGLISH);
+            try {
+                startDate = dateFormat.parse(startDateTime);
+                endDate = dateFormat.parse(endDateTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Snackbar.make(view, "Please enter valid event date and time", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S", Locale.ENGLISH);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("name", title);
+                jsonObject.put("imgUrl", imgUrl);
+                jsonObject.put("excerpt", excerpt);
+                jsonObject.put("description", content);
+                assert startDate != null;
+                jsonObject.put("startTime", format.format(startDate));
+                assert endDate != null;
+                jsonObject.put("endTime", format.format(endDate));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            CallAPI call = new CallAPI();
+            call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/EventsAPI/addNewEvent", jsonObject.toString());
+        }
     }
 
     public void cancel(View view) {
@@ -166,8 +208,8 @@ public class AddEventActivity extends FragmentActivity implements
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    Toast.makeText(AddEventActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     eventId = Integer.parseInt(response.toString());
+                    System.out.println("Events id is "+eventId);
                 }
                 //urlConnection.connect();
             } catch (Exception e) {

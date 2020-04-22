@@ -1,10 +1,10 @@
 package com.joythakur.jgssakmtadmin.ui.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Events {
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private Date startTime;
+    private Date endTime;
     private Integer eventId;
     private String name;
     private String description;
@@ -19,7 +19,7 @@ public class Events {
         this.excerpt = excerpt;
     }
 
-    public Timestamp getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
@@ -31,15 +31,15 @@ public class Events {
         this.eventId = eventId;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
