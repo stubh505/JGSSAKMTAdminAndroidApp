@@ -121,13 +121,13 @@ public class AddEventActivity extends FragmentActivity implements
         EditText eventContent = findViewById(R.id.eventAddContentText);
         String content = eventContent.getText().toString();
 
-        if (!title.matches("[\\w.?:;]+")) {
+        if (!title.matches("([\\w.?:;]+[ ]*)*")) {
             Snackbar.make(view, "Please enter a valid event name", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-        } else if (excerpt.matches("[\\w.?:;]+")) {
+        } else if (excerpt.equals("") || excerpt.matches("[ ]*")) {
             Snackbar.make(view, "Please enter a valid event excerpt", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-        } else if (content.matches("[\\w.?:;]+")) {
+        } else if (content.matches("[ ]*") || content.equals("")) {
             Snackbar.make(view, "Please enter a valid event description", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         } else {

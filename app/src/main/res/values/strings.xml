@@ -72,6 +72,13 @@
     <string name="time">Time</string>
     <string name="save_event">Add Event</string>
 
+    <!-- View Event Strings-->
+    <string name="view_event_title">View Event Title</string>
+    <string name="view_event_image">View Event Image</string>
+    <string name="view_event_posted">View Event Posted</string>
+    <string name="view_event_edited">View Event Edited</string>
+    <string name="view_event_content">View Event Content</string>
+
     <!-- Remove or change this placeholder text -->
     <string name="title_activity_add_blog">AddBlogActivity</string>
     <string name="title_activity_edit_blog">EditBlogActivity</string>
