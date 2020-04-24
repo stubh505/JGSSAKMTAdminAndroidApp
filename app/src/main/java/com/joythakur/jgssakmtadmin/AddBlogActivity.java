@@ -103,7 +103,7 @@ public class AddBlogActivity extends AppCompatActivity {
                 AlertDialog alert = new AlertDialog.Builder(AddBlogActivity.this)
                         .setTitle(R.string.no_img)
                         .setMessage(R.string.no_img_body)
-                        .setIcon(R.drawable.ic_delete_dark)
+                        .setIcon(R.drawable.ic_alert_dark)
                         .setPositiveButton(R.string.button_affirmative, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
