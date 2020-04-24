@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -38,6 +39,10 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class EditBlogActivity extends AppCompatActivity {
 
@@ -108,26 +113,74 @@ public class EditBlogActivity extends AppCompatActivity {
 
     public void saveEdits(View view) {
         EditText blogTitle = findViewById(R.id.blogTitleEditText);
-        String title = blogTitle.getText().toString();
+        final String title = blogTitle.getText().toString();
         EditText blogExcerpt = findViewById(R.id.blogExcerptEditText);
-        String excerpt = blogExcerpt.getText().toString();
+        final String excerpt = blogExcerpt.getText().toString();
         EditText blogImgUrl = findViewById(R.id.blogImgurlEditText);
-        String imgUrl = blogImgUrl.getText().toString();
+        final String imgUrl = blogImgUrl.getText().toString();
         EditText blogContent = findViewById(R.id.blogEditContentText);
-        String content = blogContent.getText().toString();
+        final String content = blogContent.getText().toString();
 
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("title", title);
-            jsonObject.put("imgUrl", imgUrl);
-            jsonObject.put("excerpt", excerpt);
-            jsonObject.put("content", content);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (!title.matches("([\\w.?:;]+[\\s]*)+")) {
+            Snackbar.make(view, "Please enter a valid title", BaseTransientBottomBar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } else if (!excerpt.matches("([\\w.?:;]+[\\s]*)+")) {
+            Snackbar.make(view, "Please enter a valid excerpt", BaseTransientBottomBar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } else if (content.equals("") || content.matches("[\\s]+")) {
+            Snackbar.make(view, "Please enter a valid content", BaseTransientBottomBar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } else {
+
+            if (imgUrl.equals("") || imgUrl.matches("[ ]+")) {
+                AlertDialog alert = new AlertDialog.Builder(EditBlogActivity.this)
+                        .setTitle(R.string.no_img)
+                        .setMessage(R.string.no_img_body)
+                        .setIcon(R.drawable.ic_delete_dark)
+                        .setPositiveButton(R.string.button_affirmative, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.put("title", title);
+                                    jsonObject.put("imgUrl", imgUrl);
+                                    jsonObject.put("excerpt", excerpt);
+                                    jsonObject.put("content", content);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                CallAPI call = new CallAPI();
+                                call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/BlogsAPI/editBlog/" + blogId, jsonObject.toString());
+                            }
+                        })
+                        .setNegativeButton(R.string.button_negative, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //return;
+                                dialog.dismiss();
+                            }
+                        }).create();
+                alert.show();
+            } else if (imgUrl.matches("(http://www\\.|https://www\\.|http://|https://)?[a-z0-9]+([\\-.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?")) {
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("title", title);
+                    jsonObject.put("imgUrl", imgUrl);
+                    jsonObject.put("excerpt", excerpt);
+                    jsonObject.put("content", content);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                CallAPI call = new CallAPI();
+                call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/BlogsAPI/editBlog/" + blogId, jsonObject.toString());
+            } else {
+                Snackbar.make(view, "Insert a valid image URL", BaseTransientBottomBar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
         }
-
-        CallAPI call = new CallAPI();
-        call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/BlogsAPI/editBlog/"+blogId, jsonObject.toString());
     }
 
     private class GetBlog extends AsyncTask<String, Void, String> {

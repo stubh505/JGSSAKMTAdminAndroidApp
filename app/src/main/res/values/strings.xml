@@ -61,6 +61,16 @@
     <string name="event_end">Event End</string>
     <string name="event_excerpt">Event Excerpt</string>
 
+    <!-- Edit Event Strings-->
+    <string name="edit_event_title">Edit Event Title</string>
+    <string name="edit_event_excerpt">Edit Event Excerpt</string>
+    <string name="edit_event_image">Edit Event Image Link</string>
+    <string name="edit_event_content">Edit Event Content</string>
+    <string name="edit_event_start_date">Edit Event Start Date</string>
+    <string name="edit_event_end_date">Edit Event End Date</string>
+    <string name="delete_event">Delete Event</string>
+    <string name="del_event_body">Are you sure you want to delete this event?</string>
+
     <!-- Add Event Strings-->
     <string name="add_event_title">Add Event Title</string>
     <string name="add_event_excerpt">Add Event Excerpt</string>
@@ -90,5 +100,7 @@
     <string name="title_activity_view_blog">ViewBlogActivity</string>
     <string name="title_activity_view_event">ViewEventActivity</string>
     <string name="default_time">00:00</string>
+    <string name="no_img">No Image Linked</string>
+    <string name="no_img_body">Do you want to continue without adding any image?</string>
 
 </resources>

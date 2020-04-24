@@ -1,5 +1,6 @@
 package com.joythakur.jgssakmtadmin;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,10 +10,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.joythakur.jgssakmtadmin.ui.model.Events;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
@@ -44,7 +47,6 @@ public class AddEventActivity extends FragmentActivity implements
     private AppBarConfiguration mAppBarConfiguration;
     private EditText dateView;
     private EditText timeView;
-    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,21 +115,21 @@ public class AddEventActivity extends FragmentActivity implements
 
     public void addEvent(View view) {
         EditText eventTitle = findViewById(R.id.eventTitleAddText);
-        String title = eventTitle.getText().toString();
+        final String title = eventTitle.getText().toString();
         EditText eventExcerpt = findViewById(R.id.eventExcerptAddText);
-        String excerpt = eventExcerpt.getText().toString();
+        final String excerpt = eventExcerpt.getText().toString();
         EditText eventImgUrl = findViewById(R.id.eventImgurlAddText);
-        String imgUrl = eventImgUrl.getText().toString();
+        final String imgUrl = eventImgUrl.getText().toString();
         EditText eventContent = findViewById(R.id.eventAddContentText);
-        String content = eventContent.getText().toString();
+        final String content = eventContent.getText().toString();
 
-        if (!title.matches("([\\w.?:;]+[ ]*)*")) {
+        if (!title.matches("([\\w.?:;]+[ ]*)+")) {
             Snackbar.make(view, "Please enter a valid event name", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-        } else if (excerpt.equals("") || excerpt.matches("[ ]*")) {
+        } else if (excerpt.equals("") || excerpt.matches("[ ]+")) {
             Snackbar.make(view, "Please enter a valid event excerpt", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-        } else if (content.matches("[ ]*") || content.equals("")) {
+        } else if (content.equals("") || content.matches("[ ]*")) {
             Snackbar.make(view, "Please enter a valid event description", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         } else {
@@ -136,7 +138,7 @@ public class AddEventActivity extends FragmentActivity implements
             EditText endDateEdit = findViewById(R.id.addEventEndDateEdit);
             EditText endTimeEdit = findViewById(R.id.addEventEndTimeEdit);
 
-            Date startDate = null, endDate = null;
+            final Date startDate, endDate;
             String startDateTime = startDateEdit.getText().toString() + " " + startTimeEdit.getText().toString();
             String endDateTime = endDateEdit.getText().toString() + " " + endTimeEdit.getText().toString();
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy hh:mm", Locale.ENGLISH);
@@ -147,25 +149,66 @@ public class AddEventActivity extends FragmentActivity implements
                 e.printStackTrace();
                 Snackbar.make(view, "Please enter valid event date and time", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                return;
             }
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S", Locale.ENGLISH);
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("name", title);
-                jsonObject.put("imgUrl", imgUrl);
-                jsonObject.put("excerpt", excerpt);
-                jsonObject.put("description", content);
-                assert startDate != null;
-                jsonObject.put("startTime", format.format(startDate));
-                assert endDate != null;
-                jsonObject.put("endTime", format.format(endDate));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S", Locale.ENGLISH);
 
-            CallAPI call = new CallAPI();
-            call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/EventsAPI/addNewEvent", jsonObject.toString());
+            if (imgUrl.equals("") || imgUrl.matches("[ ]+")) {
+                AlertDialog alert = new AlertDialog.Builder(AddEventActivity.this)
+                        .setTitle(R.string.no_img)
+                        .setMessage(R.string.no_img_body)
+                        .setIcon(R.drawable.ic_delete_dark)
+                        .setPositiveButton(R.string.button_affirmative, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.put("name", title);
+                                    jsonObject.put("imgUrl", imgUrl);
+                                    jsonObject.put("excerpt", excerpt);
+                                    jsonObject.put("description", content);
+                                    assert startDate != null;
+                                    jsonObject.put("startTime", format.format(startDate));
+                                    assert endDate != null;
+                                    jsonObject.put("endTime", format.format(endDate));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                CallAPI call = new CallAPI();
+                                call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/EventsAPI/addNewEvent", jsonObject.toString());
+                            }
+                        })
+                        .setNegativeButton(R.string.button_negative, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                alert.show();
+            } else if (imgUrl.matches("(http://www\\.|https://www\\.|http://|https://)?[a-z0-9]+([\\-.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?")) {
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("name", title);
+                    jsonObject.put("imgUrl", imgUrl);
+                    jsonObject.put("excerpt", excerpt);
+                    jsonObject.put("description", content);
+                    assert startDate != null;
+                    jsonObject.put("startTime", format.format(startDate));
+                    assert endDate != null;
+                    jsonObject.put("endTime", format.format(endDate));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                CallAPI call = new CallAPI();
+                call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/EventsAPI/addNewEvent", jsonObject.toString());
+            } else {
+                Snackbar.make(view, "Insert a valid image URL", BaseTransientBottomBar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
         }
     }
 
@@ -209,7 +252,6 @@ public class AddEventActivity extends FragmentActivity implements
                         response.append(responseLine.trim());
                     }
                     eventId = Integer.parseInt(response.toString());
-                    System.out.println("Events id is "+eventId);
                 }
                 //urlConnection.connect();
             } catch (Exception e) {
