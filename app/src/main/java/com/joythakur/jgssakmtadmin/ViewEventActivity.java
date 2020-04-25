@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
@@ -17,6 +18,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.joythakur.jgssakmtadmin.ui.model.Events;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -35,9 +38,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class ViewEventActivity extends AppCompatActivity {
+public class ViewEventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
     private Integer eventId;
     private TextView eventName;
     private TextView eventDescription;
@@ -62,16 +64,13 @@ public class ViewEventActivity extends AppCompatActivity {
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(this);
 
         eventId = getIntent().getIntExtra("eventId", 1001);
 
@@ -93,10 +92,32 @@ public class ViewEventActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.navAddBlog) {
+            Intent i = new Intent(this, AddBlogActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navHome) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navAddEvent) {
+            Intent i = new Intent(this, AddEventActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditEvent) {
+            Intent i = new Intent(this, EventActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navMessage) {
+            Intent i = new Intent(this, MessageActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditBlog) {
+            Intent i = new Intent(this, EditBlogActivity.class);
+            startActivity(i);
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private class GetEvent extends AsyncTask<String, Void, String> {
@@ -153,7 +174,6 @@ public class ViewEventActivity extends AppCompatActivity {
 
             new DownloadImageTask(eventImage).execute(b.getImgUrl());
         }
-
     }
 
     private static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -163,6 +183,7 @@ public class ViewEventActivity extends AppCompatActivity {
             this.bmImage = bmImage;
         }
 
+        @Override
         protected Bitmap doInBackground(String... urls) {
             String urlDisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -175,6 +196,7 @@ public class ViewEventActivity extends AppCompatActivity {
             return mIcon11;
         }
 
+        @Override
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }

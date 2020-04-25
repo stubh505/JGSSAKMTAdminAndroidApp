@@ -5,16 +5,50 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/navHome"
             android:icon="@drawable/ic_menu_camera"
+
             android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
     </group>
+
+    <item android:title="@string/title_activity_blog">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navAddBlog"
+                    android:icon="@drawable/ic_blogger"
+                    android:title="@string/title_activity_add_blog" />
+                <item
+                    android:id="@+id/navEditBlog"
+                    android:icon="@drawable/ic_edit_blog"
+                    android:title="@string/title_activity_edit_blog" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/title_activity_event">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navAddEvent"
+                    android:icon="@drawable/ic_event"
+                    android:title="@string/title_activity_add_event" />
+                <item
+                    android:id="@+id/navEditEvent"
+                    android:icon="@drawable/ic_edit_event"
+                    android:title="@string/title_activity_edit_event" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/title_activity_message">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navMessage"
+                    android:icon="@drawable/ic_event"
+                    android:title="@string/title_activity_message" />
+            </group>
+        </menu>
+    </item>
 </menu>

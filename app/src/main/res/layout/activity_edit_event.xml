@@ -20,6 +20,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_edit_event"
-        app:menu="@menu/activity_edit_event_drawer" />
+        app:menu="@menu/activity_event_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

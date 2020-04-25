@@ -13,9 +13,17 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ViewMessageActivity"
+            android:label="@string/title_activity_view_message"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MessageActivity"
+            android:label="@string/title_activity_message"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ViewEventActivity"
             android:label="@string/title_activity_view_event"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewBlogActivity"
             android:label="@string/title_activity_view_blog"
@@ -41,6 +49,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EventActivity"
+            android:configChanges="orientation|screenLayout|screenSize"
             android:label="@string/title_activity_event"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -55,6 +64,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BlogActivity"
+            android:configChanges="orientation|screenLayout|screenSize"
             android:label="@string/title_activity_blog"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

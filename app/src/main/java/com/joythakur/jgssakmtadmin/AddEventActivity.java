@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.EditText;
@@ -15,7 +16,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.joythakur.jgssakmtadmin.ui.model.Events;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
@@ -42,7 +45,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class AddEventActivity extends FragmentActivity implements
-        DatePickerFragment.DatePickedListener, TimePickerFragment.TimePickedListener {
+        DatePickerFragment.DatePickedListener, TimePickerFragment.TimePickedListener, NavigationView.OnNavigationItemSelectedListener  {
 
     private AppBarConfiguration mAppBarConfiguration;
     private EditText dateView;
@@ -62,16 +65,13 @@ public class AddEventActivity extends FragmentActivity implements
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(this);
 
         dateView = findViewById(R.id.addEventStartDateEdit);
         timeView = findViewById(R.id.addEventStartTimeEdit);
@@ -84,12 +84,31 @@ public class AddEventActivity extends FragmentActivity implements
         return true;
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-//                || super.onSupportNavigateUp();
-//    }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.navAddBlog) {
+            Intent i = new Intent(this, AddBlogActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navHome) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditBlog) {
+            Intent i = new Intent(this, EditBlogActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditEvent) {
+            Intent i = new Intent(this, EventActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navMessage) {
+            Intent i = new Intent(this, MessageActivity.class);
+            startActivity(i);
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     public void showDatePickerDialog(View v) {
         dateView = (EditText) v;

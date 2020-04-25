@@ -165,7 +165,7 @@
             android:textColor="@color/colorPrimaryText"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/eventImgurlEditText"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/eventEditStartDateText"
@@ -198,7 +198,7 @@
             android:textColor="@color/colorPrimaryText"
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/eventEditStartDateText"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/eventEditEndDateText"
@@ -222,5 +222,5 @@
             app:layout_constraintStart_toEndOf="@id/eventEditEndDateText"
             app:layout_constraintTop_toBottomOf="@id/eventEditEndDate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
+
 </ScrollView>

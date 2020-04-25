@@ -1,16 +1,23 @@
 package com.joythakur.jgssakmtadmin;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.joythakur.jgssakmtadmin.ui.model.Blogs;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,13 +38,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class BlogActivity extends AppCompatActivity {
+public class BlogActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private GetBlogs getBlogs;
-    private AppBarConfiguration mAppBarConfiguration;
     private ArrayList<Blogs> blogList;
     private BlogRecyclerViewAdapter recyclerViewAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
 
     @Override
@@ -54,17 +59,17 @@ public class BlogActivity extends AppCompatActivity {
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
+        navigationView.setNavigationItemSelectedListener(this);
 
         blogList = new ArrayList<>();
 
-        getBlogs = new GetBlogs();
+        GetBlogs getBlogs = new GetBlogs();
 
         getBlogs.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/BlogsAPI/getAllBlogs");
 
@@ -72,10 +77,8 @@ public class BlogActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.blogRecyclerView);
 
-        layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        //recyclerView.setAdapter(recyclerViewAdapter);
     }
 
     @Override
@@ -86,10 +89,41 @@ public class BlogActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.navAddBlog) {
+            Intent i = new Intent(this, AddBlogActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navHome) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navAddEvent) {
+            Intent i = new Intent(this, AddEventActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditEvent) {
+            Intent i = new Intent(this, EventActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navMessage) {
+            Intent i = new Intent(this, MessageActivity.class);
+            startActivity(i);
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(
+                    getApplicationContext(), 2, LinearLayoutManager.VERTICAL, false));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(
+                    getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        }
     }
 
     private class GetBlogs extends AsyncTask<String, Void, String> {

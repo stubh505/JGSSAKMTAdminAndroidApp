@@ -1,24 +1,27 @@
 package com.joythakur.jgssakmtadmin;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.google.android.material.navigation.NavigationView;
 import com.joythakur.jgssakmtadmin.ui.model.Events;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,13 +35,10 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private GetEvents getEvents;
-    private AppBarConfiguration mAppBarConfiguration;
     private ArrayList<Events> eventList;
     private EventRecyclerViewAdapter recyclerViewAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
 
     @Override
@@ -56,20 +56,16 @@ public class EventActivity extends AppCompatActivity {
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         eventList = new ArrayList<>();
 
-        getEvents = new GetEvents();
+        GetEvents getEvents = new GetEvents();
 
         getEvents.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/EventsAPI/getAllEvents");
 
@@ -77,7 +73,7 @@ public class EventActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.eventRecyclerView);
 
-        layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
     }
 
@@ -89,10 +85,29 @@ public class EventActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.navAddBlog) {
+            Intent i = new Intent(this, AddBlogActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditBlog) {
+            Intent i = new Intent(this, BlogActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navAddEvent) {
+            Intent i = new Intent(this, AddEventActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navHome) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navMessage) {
+            Intent i = new Intent(this, MessageActivity.class);
+            startActivity(i);
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private class GetEvents extends AsyncTask<String, Void, String> {
@@ -144,6 +159,18 @@ public class EventActivity extends AppCompatActivity {
             recyclerView.setAdapter(recyclerViewAdapter);
         }
 
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(
+                    getApplicationContext(), 2, LinearLayoutManager.VERTICAL, false));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(
+                    getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        }
     }
 
     @Override
