@@ -89,6 +89,10 @@
     <string name="view_event_edited">View Event Edited</string>
     <string name="view_event_content">View Event Content</string>
 
+    <!-- Page Strings-->
+    <string name="page_title">Page Header</string>
+    <string name="page_excerpt">Page Excerpt</string>
+
     <!-- View Message Strings-->
     <string name="message_email">Email</string>
     <string name="message_mobile">Mobile No</string>
@@ -112,5 +116,6 @@
     <string name="no_img_body">Do you want to continue without adding any image?</string>
     <string name="title_activity_message">Messages</string>
     <string name="title_activity_view_message">View Message</string>
+    <string name="title_activity_add_page">AddPageActivity</string>
 
 </resources>

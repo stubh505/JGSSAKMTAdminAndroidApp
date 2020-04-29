@@ -41,6 +41,21 @@
         </menu>
     </item>
 
+    <item android:title="@string/title_activity_page">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navAddPage"
+                    android:icon="@drawable/ic_event"
+                    android:title="@string/title_activity_add_page" />
+                <item
+                    android:id="@+id/navEditPage"
+                    android:icon="@drawable/ic_edit_event"
+                    android:title="@string/title_activity_edit_page" />
+            </group>
+        </menu>
+    </item>
+
     <item android:title="@string/title_activity_message">
         <menu>
             <group android:checkableBehavior="single">

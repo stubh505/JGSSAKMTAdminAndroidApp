@@ -107,6 +107,12 @@ public class BlogActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.navMessage) {
             Intent i = new Intent(this, MessageActivity.class);
             startActivity(i);
+        } else if (id == R.id.navAddPage) {
+            Intent i = new Intent(this, AddPageActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditPage) {
+            Intent i = new Intent(this, PageActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

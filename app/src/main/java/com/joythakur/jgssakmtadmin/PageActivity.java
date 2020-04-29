@@ -1,15 +1,20 @@
 package com.joythakur.jgssakmtadmin;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.joythakur.jgssakmtadmin.ui.model.Page;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
@@ -19,10 +24,24 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class PageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
+    private ArrayList<Page> pageList;
+    private PageRecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +65,19 @@ public class PageActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        pageList = new ArrayList<>();
+
+        GetPages getPages = new GetPages();
+
+        getPages.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/PagesAPI/getAllPages");
+
+        recyclerViewAdapter = new PageRecyclerViewAdapter(pageList, getApplicationContext());
+
+        recyclerView = findViewById(R.id.blogRecyclerView);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -74,10 +106,84 @@ public class PageActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.navMessage) {
             Intent i = new Intent(this, MessageActivity.class);
             startActivity(i);
+        } else if (id == R.id.navAddPage) {
+            Intent i = new Intent(this, AddPageActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditBlog) {
+            Intent i = new Intent(this, BlogActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(
+                    getApplicationContext(), 2, LinearLayoutManager.VERTICAL, false));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(
+                    getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        }
+    }
+
+    private class GetPages extends AsyncTask<String, Void, String> {
+
+        JSONArray jsonArray;
+
+        @Override
+        protected String doInBackground(String... apis) {
+            try {
+                URL url = new URL(apis[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                InputStreamReader ips = new InputStreamReader(inputStream);
+                StringBuilder res = new StringBuilder();
+                int data = ips.read();
+                while (data != -1) {
+                    res.append((char) data);
+                    data = ips.read();
+                }
+
+                Page b;
+
+                jsonArray = new JSONArray(res.toString());
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    b = new Page();
+                    b.setPageId(jsonObject.getInt("pageId"));
+                    b.setName(jsonObject.getString("name"));
+                    b.setExcerpt(jsonObject.getString("excerpt"));
+                    pageList.add(b);
+                }
+
+                return res.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(String s) {
+            super.onPostExecute(s);
+            recyclerView.setAdapter(recyclerViewAdapter);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView tv = findViewById(R.id.noPages);
+        tv.setAlpha(0.0f);
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 }

@@ -99,6 +99,12 @@ public class MessageActivity extends AppCompatActivity implements NavigationView
         } else if (id == R.id.navEditBlog) {
             Intent i = new Intent(this, EditBlogActivity.class);
             startActivity(i);
+        } else if (id == R.id.navAddPage) {
+            Intent i = new Intent(this, AddPageActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditPage) {
+            Intent i = new Intent(this, PageActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
