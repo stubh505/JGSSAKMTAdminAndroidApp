@@ -93,6 +93,15 @@
     <string name="page_title">Page Header</string>
     <string name="page_excerpt">Page Excerpt</string>
 
+    <!-- Edit Page Strings -->
+    <string name="edit_page_header">Edit Page Header</string>
+    <string name="edit_page_name">Edit Page Name</string>
+    <string name="edit_page_excerpt">Edit Page Excerpt</string>
+    <string name="save_page">Save Page</string>
+    <string name="add_para">Add Paragraph</string>
+    <string name="delete_page">Delete Page</string>
+    <string name="del_page_body">Are you sure you want to delete this page?</string>
+
     <!-- View Message Strings-->
     <string name="message_email">Email</string>
     <string name="message_mobile">Mobile No</string>
