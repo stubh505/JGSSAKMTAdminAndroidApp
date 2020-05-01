@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.joythakur.jgssakmtadmin">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,17 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".ViewPageActivity"
             android:label="@string/title_activity_view_page"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddPageActivity"
             android:label="@string/title_activity_add_page"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewMessageActivity"
             android:label="@string/title_activity_view_message"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MessageActivity"
@@ -31,10 +36,12 @@
         <activity
             android:name=".ViewEventActivity"
             android:label="@string/title_activity_view_event"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewBlogActivity"
             android:label="@string/title_activity_view_blog"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EditPageActivity"
