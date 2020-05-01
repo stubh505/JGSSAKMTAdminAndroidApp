@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.EditText;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -38,7 +37,6 @@ public class AddPageActivity extends AppCompatActivity implements NavigationView
 
     private EditPageRecyclerViewAdapter adapter;
     ArrayList<Paragraph> paras;
-    private String posted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +44,7 @@ public class AddPageActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_add_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,7 +66,7 @@ public class AddPageActivity extends AppCompatActivity implements NavigationView
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_page, menu);
+        getMenuInflater().inflate(R.menu.page, menu);
         return true;
     }
 
@@ -220,7 +211,6 @@ public class AddPageActivity extends AppCompatActivity implements NavigationView
                     }
                     pageId = Integer.parseInt(response.toString());
                 }
-                //urlConnection.connect();
             } catch (Exception e) {
                 e.printStackTrace();
             }

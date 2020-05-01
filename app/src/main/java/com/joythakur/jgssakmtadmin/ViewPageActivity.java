@@ -82,7 +82,7 @@ public class ViewPageActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_page, menu);
+        getMenuInflater().inflate(R.menu.page, menu);
         return true;
     }
 
@@ -110,6 +110,9 @@ public class ViewPageActivity extends AppCompatActivity implements NavigationVie
             startActivity(i);
         } else if (id == R.id.navEditPage) {
             Intent i = new Intent(this, PageActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navEditBlog) {
+            Intent i = new Intent(this, BlogActivity.class);
             startActivity(i);
         }
 

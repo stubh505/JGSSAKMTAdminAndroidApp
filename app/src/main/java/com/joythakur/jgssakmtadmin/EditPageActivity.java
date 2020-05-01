@@ -19,10 +19,6 @@ import com.joythakur.jgssakmtadmin.ui.model.Paragraph;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -40,11 +36,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class EditPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -105,7 +97,7 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_page, menu);
+        getMenuInflater().inflate(R.menu.page, menu);
         return true;
     }
 
@@ -237,8 +229,6 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
 
                 jsonObject = new JSONObject(res.toString());
 
-                // = null;
-
                 b = new Page();
                 b.setExcerpt(jsonObject.getString("excerpt"));
                 b.setName(jsonObject.getString("name"));
@@ -325,9 +315,7 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    //Toast.makeText(EditPageActivity.this, response, Toast.LENGTH_SHORT).show();
                 }
-                //urlConnection.connect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -368,7 +356,6 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    //Toast.makeText(EditPageActivity.this, response, Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

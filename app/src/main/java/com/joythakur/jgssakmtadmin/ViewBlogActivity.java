@@ -54,7 +54,6 @@ public class ViewBlogActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), EditBlogActivity.class);
                 i.putExtra("blogId", blogId);
-                finish();
                 startActivity(i);
             }
         });
@@ -82,7 +81,7 @@ public class ViewBlogActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_blog, menu);
+        getMenuInflater().inflate(R.menu.blog, menu);
         return true;
     }
 

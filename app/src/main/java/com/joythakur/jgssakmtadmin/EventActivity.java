@@ -17,7 +17,6 @@ import com.joythakur.jgssakmtadmin.ui.model.Events;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

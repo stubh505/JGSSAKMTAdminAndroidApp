@@ -85,7 +85,7 @@ public class EditBlogActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_blog, menu);
+        getMenuInflater().inflate(R.menu.blog, menu);
         return true;
     }
 
@@ -259,7 +259,6 @@ public class EditBlogActivity extends AppCompatActivity implements NavigationVie
         protected String doInBackground(String... params) {
             String urlString = params[0]; // URL to call
             String data = params[1]; //data to post
-//            OutputStream out = null;
 
             try {
                 URL url = new URL(urlString);
@@ -268,14 +267,6 @@ public class EditBlogActivity extends AppCompatActivity implements NavigationVie
                 urlConnection.setRequestProperty("Content-Type", "application/json; utf-8");
                 urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.connect();
-//                urlConnection.setChunkedStreamingMode(0);
-//                out = new BufferedOutputStream(urlConnection.getOutputStream());
-//
-//                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-//                writer.write(data);
-//                writer.flush();
-//                writer.close();
-//                out.close();
 
                 try(OutputStream os = urlConnection.getOutputStream()) {
                     byte[] input = data.getBytes(StandardCharsets.UTF_8);
@@ -289,9 +280,7 @@ public class EditBlogActivity extends AppCompatActivity implements NavigationVie
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    //Toast.makeText(EditBlogActivity.this, response, Toast.LENGTH_SHORT).show();
                 }
-                //urlConnection.connect();
             } catch (Exception e) {
                 e.printStackTrace();
             }

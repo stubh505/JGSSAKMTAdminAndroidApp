@@ -1,7 +1,6 @@
 package com.joythakur.jgssakmtadmin;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -18,10 +16,6 @@ import com.joythakur.jgssakmtadmin.ui.model.Blogs;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -164,18 +158,6 @@ public class BlogActivity extends AppCompatActivity implements NavigationView.On
                     b.setExcerpt(jsonObject.getString("excerpt"));
                     blogList.add(b);
                 }
-
-                /*for (int i = 0; i < jsonArray.length(); i++) {
-                    Gson gson = new Gson();
-                    String json = jsonArray.getJSONObject(i).toString();
-                    System.out.println(json);
-                    b = gson.fromJson(json, Blogs.class);
-                    blogs.add(b);
-                }*/
-
-                /*Gson gson = new Gson();
-                Type collectionType = new TypeToken<Collection<Blogs>>(){}.getType();
-                blogs = gson.fromJson(String.valueOf(jsonArray), collectionType);*/
 
                 return res.toString();
             } catch (Exception e) {

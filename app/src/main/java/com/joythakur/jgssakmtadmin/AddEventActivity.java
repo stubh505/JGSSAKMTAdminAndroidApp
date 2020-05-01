@@ -8,25 +8,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.joythakur.jgssakmtadmin.ui.model.Events;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONException;
@@ -40,14 +32,12 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class AddEventActivity extends FragmentActivity implements
         DatePickerFragment.DatePickedListener, TimePickerFragment.TimePickedListener, NavigationView.OnNavigationItemSelectedListener  {
 
-    private AppBarConfiguration mAppBarConfiguration;
     private EditText dateView;
     private EditText timeView;
 
@@ -56,14 +46,7 @@ public class AddEventActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
         Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -80,7 +63,7 @@ public class AddEventActivity extends FragmentActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_event, menu);
+        getMenuInflater().inflate(R.menu.event, menu);
         return true;
     }
 
@@ -278,7 +261,6 @@ public class AddEventActivity extends FragmentActivity implements
                     }
                     eventId = Integer.parseInt(response.toString());
                 }
-                //urlConnection.connect();
             } catch (Exception e) {
                 e.printStackTrace();
             }

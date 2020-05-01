@@ -14,16 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.joythakur.jgssakmtadmin.ui.model.Events;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -59,7 +54,6 @@ public class ViewEventActivity extends AppCompatActivity implements NavigationVi
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), EditEventActivity.class);
                 i.putExtra("eventId", eventId);
-                finish();
                 startActivity(i);
             }
         });
@@ -87,7 +81,7 @@ public class ViewEventActivity extends AppCompatActivity implements NavigationVi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_event, menu);
+        getMenuInflater().inflate(R.menu.event, menu);
         return true;
     }
 

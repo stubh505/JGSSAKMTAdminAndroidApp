@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -18,10 +17,6 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -38,22 +33,13 @@ import java.nio.charset.StandardCharsets;
 
 public class AddBlogActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_blog);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,7 +53,7 @@ public class AddBlogActivity extends AppCompatActivity implements NavigationView
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_blog, menu);
+        getMenuInflater().inflate(R.menu.blog, menu);
         return true;
     }
 
@@ -149,7 +135,6 @@ public class AddBlogActivity extends AppCompatActivity implements NavigationView
                         .setNegativeButton(R.string.button_negative, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //return;
                                 dialog.dismiss();
                             }
                         }).create();
@@ -173,18 +158,6 @@ public class AddBlogActivity extends AppCompatActivity implements NavigationView
                         .setAction("Action", null).show();
             }
         }
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("title", title);
-//            jsonObject.put("imgUrl", imgUrl);
-//            jsonObject.put("excerpt", excerpt);
-//            jsonObject.put("content", content);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        CallAPI call = new CallAPI();
-//        call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/BlogsAPI/addNewBlog", jsonObject.toString());
     }
 
     public void cancel(View view) {
@@ -229,7 +202,6 @@ public class AddBlogActivity extends AppCompatActivity implements NavigationView
                     Toast.makeText(AddBlogActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     blogId = Integer.parseInt(response.toString());
                 }
-                //urlConnection.connect();
             } catch (Exception e) {
                 e.printStackTrace();
             }

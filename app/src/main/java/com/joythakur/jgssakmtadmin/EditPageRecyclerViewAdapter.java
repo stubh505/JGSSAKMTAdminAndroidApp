@@ -39,7 +39,6 @@ public class EditPageRecyclerViewAdapter extends RecyclerView.Adapter<EditPageRe
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
 
                 }
             });
@@ -164,16 +163,6 @@ public class EditPageRecyclerViewAdapter extends RecyclerView.Adapter<EditPageRe
         viewHolder.getParaBody().setText(mDataSet.get(position).getBody());
         if (mDataSet.get(position).getImgUrl() != null && mDataSet.get(position).getImgUrl().equals("null"))
             viewHolder.getParaImage().setText(mDataSet.get(position).getImgUrl());
-
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(context, EditPageActivity.class);
-//                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                i.putExtra("pageId", mDataSet.get(position).getPageId());
-//                context.startActivity(i);
-//            }
-//        });
     }
     // END_INCLUDE(recyclerViewOnBindViewHolder)
 

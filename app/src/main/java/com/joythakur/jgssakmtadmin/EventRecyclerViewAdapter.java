@@ -43,7 +43,6 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
 
                 }
             });
@@ -104,7 +103,6 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        // Log.d(TAG, "Element " + position + " set.");
 
         // Get element from your dataset at this position and replace the contents of the view
         // with that element

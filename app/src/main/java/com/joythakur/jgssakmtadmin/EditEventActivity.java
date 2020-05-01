@@ -90,7 +90,7 @@ public class EditEventActivity extends AppCompatActivity implements NavigationVi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_event, menu);
+        getMenuInflater().inflate(R.menu.event, menu);
         return true;
     }
 
@@ -324,9 +324,7 @@ public class EditEventActivity extends AppCompatActivity implements NavigationVi
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    //Toast.makeText(EditEventActivity.this, response, Toast.LENGTH_SHORT).show();
                 }
-                //urlConnection.connect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -367,7 +365,6 @@ public class EditEventActivity extends AppCompatActivity implements NavigationVi
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    //Toast.makeText(EditEventActivity.this, response, Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
