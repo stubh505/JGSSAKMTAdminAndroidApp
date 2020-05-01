@@ -102,6 +102,12 @@
     <string name="delete_page">Delete Page</string>
     <string name="del_page_body">Are you sure you want to delete this page?</string>
 
+    <!-- Add Page Strings -->
+    <string name="add_page_header">Add Page Header</string>
+    <string name="add_page_name">Add Page Name</string>
+    <string name="add_page_excerpt">Add Page Excerpt</string>
+    <string name="add_page">Add Page</string>
+
     <!-- View Message Strings-->
     <string name="message_email">Email</string>
     <string name="message_mobile">Mobile No</string>
@@ -110,6 +116,19 @@
     <string name="del_message">Delete Message</string>
     <string name="del_message_body">Are you sure you want to delete this message?</string>
 
+    <!-- Edit Paragraph Strings-->
+    <string name="edit_para_header">Edit Paragraph Header</string>
+    <string name="edit_para_body">Edit Paragraph Body</string>
+    <string name="edit_para_image">Edit Paragraph Image</string>
+
+    <!-- View Page Strings-->
+    <string name="view_page_header">View Page Header</string>
+    <string name="view_page_name">View Page Name</string>
+    <string name="posted_edited">Posted/Edited</string>
+    <string name="view_page_para">View Page Paragraph Header</string>
+    <string name="view_page_body">View Page Paragraph body</string>
+    <string name="view_page_image">View Page Paragraph Image</string>
+
     <!-- Remove or change this placeholder text -->
     <string name="title_activity_add_blog">Add New Blog</string>
     <string name="title_activity_edit_blog">Edit Existing Blog</string>
@@ -117,7 +136,7 @@
     <string name="title_activity_add_event">Add New Event</string>
     <string name="title_activity_edit_event">Edit Existing Event</string>
     <string name="title_activity_page">Pages</string>
-    <string name="title_activity_edit_page">Edit A Page</string>
+    <string name="title_activity_edit_page">Edit Existing Page</string>
     <string name="title_activity_view_blog">View Blog</string>
     <string name="title_activity_view_event">View Event</string>
     <string name="default_time">00:00</string>
@@ -125,6 +144,7 @@
     <string name="no_img_body">Do you want to continue without adding any image?</string>
     <string name="title_activity_message">Messages</string>
     <string name="title_activity_view_message">View Message</string>
-    <string name="title_activity_add_page">AddPageActivity</string>
+    <string name="title_activity_add_page">Add New Page</string>
+    <string name="title_activity_view_page">View Page</string>
 
 </resources>

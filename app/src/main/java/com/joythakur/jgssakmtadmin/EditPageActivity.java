@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.joythakur.jgssakmtadmin.ui.model.Page;
@@ -25,8 +26,11 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -36,12 +40,19 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class EditPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Integer pageId;
+    private RecyclerView recyclerView;
+    private EditPageRecyclerViewAdapter adapter;
+    ArrayList<Paragraph> paras;
+    private String posted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +93,9 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        recyclerView = findViewById(R.id.editPageRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         pageId = getIntent().getIntExtra("pageId", 1001);
 
         GetPage getPage = new GetPage();
@@ -117,14 +131,88 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.navAddPage) {
             Intent i = new Intent(this, AddPageActivity.class);
             startActivity(i);
-        } else if (id == R.id.navEditPage) {
-            Intent i = new Intent(this, PageActivity.class);
+        } else if (id == R.id.navEditBlog) {
+            Intent i = new Intent(this, BlogActivity.class);
             startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void addPara(View view) {
+        Paragraph p = new Paragraph();
+        paras.add(p);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void savePage(View view) {
+        EditText pageHeader = findViewById(R.id.editPageHeaderEditText);
+        final String header = pageHeader.getText().toString();
+        EditText pageExcerpt = findViewById(R.id.editPageExcerptEditText);
+        final String excerpt = pageExcerpt.getText().toString();
+        EditText pageName = findViewById(R.id.editPageNameEditText);
+        final String name = pageName.getText().toString();
+
+
+        if (!header.matches("([\\w.?:;]+[ ]*)+")) {
+            Snackbar.make(view, "Please enter a valid header", BaseTransientBottomBar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } else if (!excerpt.matches("([\\w.?:;]+[ ]*)+")) {
+            Snackbar.make(view, "Please enter a valid excerpt", BaseTransientBottomBar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } else if (name.equals("") || name.matches("[ ]+")) {
+            Snackbar.make(view, "Please enter a valid name", BaseTransientBottomBar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } else {
+            for (Paragraph p:paras) {
+                if ((p.getImgUrl() == null || p.getImgUrl().equals("") || p.getImgUrl().matches("[ ]+"))
+                        && (p.getBody() == null || p.getBody().equals("") || p.getBody().matches("[ ]+"))
+                        && (p.getHeader() == null || p.getHeader().equals("") || p.getHeader().matches("[ ]+"))) {
+                    paras.remove(p);
+                }
+            }
+            for (Paragraph p:paras) {
+                if (p.getHeader() == null || p.getHeader().equals("") || p.getHeader().matches("[ ]+")) {
+                    Snackbar.make(view, "Insert valid headers for all the paragraphs", BaseTransientBottomBar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
+                    return;
+                } else if (p.getImgUrl() == null || !p.getImgUrl().matches("(http://www\\.|https://www\\.|http://|https://)?[a-z0-9]+([\\-.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?")
+                    || p.getImgUrl().matches("[ ]+") || p.getImgUrl().equals("")) {
+
+                    p.setImgUrl("");
+                } else if (p.getBody() == null || p.getBody().equals("") || p.getBody().matches("[ ]+")){
+                    Snackbar.make(view, "Insert a valid body for all paragraphs", BaseTransientBottomBar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
+                    return;
+                }
+            }
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            JSONArray paraArray = new JSONArray();
+
+            for (Paragraph p:paras) {
+                JSONObject paraObject = new JSONObject();
+                paraObject.put("paragraphId", 0);
+                paraObject.put("header", p.getHeader());
+                paraObject.put("body", p.getBody());
+                paraObject.put("imgUrl", p.getImgUrl());
+                paraArray.put(paraObject);
+            }
+            jsonObject.put("posted", posted);
+            jsonObject.put("name", name);
+            jsonObject.put("header", header);
+            jsonObject.put("excerpt", excerpt);
+            jsonObject.put("paragraphs", paraArray);
+
+            CallAPI call = new CallAPI();
+            call.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/PagesAPI/editPage/" + pageId, jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private class GetPage extends AsyncTask<String, Void, String> {
@@ -149,12 +237,13 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
 
                 jsonObject = new JSONObject(res.toString());
 
-                List<Paragraph> paras = null;
+                // = null;
 
                 b = new Page();
                 b.setExcerpt(jsonObject.getString("excerpt"));
                 b.setName(jsonObject.getString("name"));
                 b.setHeader(jsonObject.getString("header"));
+                posted = jsonObject.getString("posted");
 
                 JSONArray jsonArray = jsonObject.getJSONArray("paragraphs");
 
@@ -198,6 +287,8 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
             EditText pageExcerpt = findViewById(R.id.editPageExcerptEditText);
             pageExcerpt.setText(b.getExcerpt());
 
+            adapter = new EditPageRecyclerViewAdapter(paras, getApplicationContext());
+            recyclerView.setAdapter(adapter);
         }
 
     }
@@ -247,7 +338,7 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
         @Override
         public void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent i = new Intent(EditPageActivity.this, AddPageActivity.class);
+            Intent i = new Intent(EditPageActivity.this, ViewPageActivity.class);
             i.putExtra("pageId", pageId);
             startActivity(i);
         }

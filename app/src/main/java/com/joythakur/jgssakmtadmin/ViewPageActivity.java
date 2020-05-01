@@ -1,20 +1,20 @@
 package com.joythakur.jgssakmtadmin;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.joythakur.jgssakmtadmin.ui.model.Page;
+import com.joythakur.jgssakmtadmin.ui.model.Paragraph;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
@@ -24,7 +24,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,26 +34,31 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class PageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ViewPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ArrayList<Page> pageList;
-    private PageRecyclerViewAdapter recyclerViewAdapter;
+    private Integer pageId;
     private RecyclerView recyclerView;
+    private ViewPageRecyclerViewAdapter adapter;
+    private ArrayList<Paragraph> paras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_page);
+        setContentView(R.layout.activity_view_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent i = new Intent(ViewPageActivity.this, EditPageActivity.class);
+                i.putExtra("pageId", pageId);
+                startActivity(i);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -66,24 +70,19 @@ public class PageActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        pageList = new ArrayList<>();
+        recyclerView = findViewById(R.id.viewPageRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        GetPages getPages = new GetPages();
+        pageId = getIntent().getIntExtra("pageId", 1001);
 
-        getPages.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/PagesAPI/getAllPages");
-
-        recyclerViewAdapter = new PageRecyclerViewAdapter(pageList, getApplicationContext());
-
-        recyclerView = findViewById(R.id.pageRecyclerView);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        GetPage getPage = new GetPage();
+        getPage.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/PagesAPI/getPage/"+pageId);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.page, menu);
+        getMenuInflater().inflate(R.menu.view_page, menu);
         return true;
     }
 
@@ -109,8 +108,8 @@ public class PageActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.navAddPage) {
             Intent i = new Intent(this, AddPageActivity.class);
             startActivity(i);
-        } else if (id == R.id.navEditBlog) {
-            Intent i = new Intent(this, BlogActivity.class);
+        } else if (id == R.id.navEditPage) {
+            Intent i = new Intent(this, PageActivity.class);
             startActivity(i);
         }
 
@@ -119,21 +118,10 @@ public class PageActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(
-                    getApplicationContext(), 2, LinearLayoutManager.VERTICAL, false));
-        } else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(
-                    getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        }
-    }
+    private class GetPage extends AsyncTask<String, Void, String> {
 
-    private class GetPages extends AsyncTask<String, Void, String> {
-
-        JSONArray jsonArray;
+        JSONObject jsonObject;
+        Page b;
 
         @Override
         protected String doInBackground(String... apis) {
@@ -150,18 +138,36 @@ public class PageActivity extends AppCompatActivity implements NavigationView.On
                     data = ips.read();
                 }
 
-                Page b;
+                jsonObject = new JSONObject(res.toString());
 
-                jsonArray = new JSONArray(res.toString());
+                // = null;
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    b = new Page();
-                    b.setPageId(jsonObject.getInt("pageId"));
-                    b.setName(jsonObject.getString("name"));
-                    b.setExcerpt(jsonObject.getString("excerpt"));
-                    pageList.add(b);
+                b = new Page();
+                b.setExcerpt(jsonObject.getString("excerpt"));
+                b.setName(jsonObject.getString("name"));
+                b.setHeader(jsonObject.getString("header"));
+                b.setEdited(Timestamp.valueOf(jsonObject.getString("edited").replace('T', ' ')));
+                b.setPosted(Timestamp.valueOf(jsonObject.getString("posted").replace('T', ' ')));
+
+                JSONArray jsonArray = jsonObject.getJSONArray("paragraphs");
+
+                if (jsonArray.length()>0) {
+                    paras = new ArrayList<>();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject para = jsonArray.getJSONObject(i);
+
+                        Paragraph p = new Paragraph();
+                        p.setBody(para.getString("body"));
+                        p.setHeader(para.getString("header"));
+                        p.setImgUrl(para.getString("imgUrl"));
+                        p.setParagraphId(para.getInt("paragraphId"));
+
+                        paras.add(p);
+                    }
                 }
+
+                b.setParagraphs(paras);
 
                 return res.toString();
             } catch (Exception e) {
@@ -174,16 +180,20 @@ public class PageActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onPostExecute(String s) {
             super.onPostExecute(s);
-            recyclerView.setAdapter(recyclerViewAdapter);
+            setData(b);
         }
 
-    }
+        private void setData(Page b) {
+            TextView pageName = findViewById(R.id.viewPageHeader);
+            pageName.setText(b.getHeader());
+            TextView pageEdit = findViewById(R.id.viewPagePostedEdited);
+            SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy", Locale.ENGLISH);
+            String date = format.format(b.getEdited()) + "/" + format.format(b.getPosted());
+            pageEdit.setText(date);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        TextView tv = findViewById(R.id.noPages);
-        tv.setAlpha(0.0f);
-        recyclerViewAdapter.notifyDataSetChanged();
+            adapter = new ViewPageRecyclerViewAdapter(paras, getApplicationContext());
+            recyclerView.setAdapter(adapter);
+        }
+
     }
 }

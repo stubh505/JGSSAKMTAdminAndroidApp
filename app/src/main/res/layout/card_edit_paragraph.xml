@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/blogCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/paraDelete"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@string/del_page_body"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/paraHeaderEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/edit_para_header"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/paraDelete" />
+
+        <EditText
+            android:id="@+id/paraBodyEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/edit_para_body"
+            android:importantForAutofill="no"
+            android:textColor="@color/colorSecondaryText"
+            android:lines="3"
+            android:layout_marginTop="5dp"
+            android:inputType="textMultiLine|textCapSentences"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/paraHeaderEdit" />
+
+        <EditText
+            android:id="@+id/paraImageEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textColor="@color/colorSecondaryText"
+            android:layout_marginTop="5dp"
+            android:hint="@string/edit_para_image"
+            android:importantForAutofill="no"
+            android:inputType="textShortMessage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/paraBodyEdit" />
+
+        <TextView
+            android:id="@+id/paraTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_para_header"
+            android:textColor="@color/colorPrimaryText"
+            app:layout_constraintBottom_toTopOf="@+id/paraHeaderEdit"
+            app:layout_constraintStart_toStartOf="@+id/paraHeaderEdit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
