@@ -1,6 +1,7 @@
 package com.joythakur.jgssakmtadmin;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.joythakur.jgssakmtadmin.ui.model.Paragraph;
@@ -52,8 +54,24 @@ public class EditPageRecyclerViewAdapter extends RecyclerView.Adapter<EditPageRe
             deletePara.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDataSet.remove(getAdapterPosition());
-                    notifyDataSetChanged();
+                    AlertDialog alert = new AlertDialog.Builder(context)
+                            .setTitle(R.string.para_del_head)
+                            .setMessage(R.string.para_del_body)
+                            .setIcon(R.drawable.ic_delete)
+                            .setPositiveButton(R.string.button_affirmative, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mDataSet.remove(getAdapterPosition());
+                                    notifyDataSetChanged();
+                                }
+                            })
+                            .setNegativeButton(R.string.button_negative, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).create();
+                    alert.show();
                 }
             });
 

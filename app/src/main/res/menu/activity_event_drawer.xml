@@ -66,4 +66,19 @@
             </group>
         </menu>
     </item>
+
+    <item android:title="@string/title_activity_carousel">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navAddCarousel"
+                    android:icon="@drawable/ic_event"
+                    android:title="@string/title_activity_add_carousel" />
+                <item
+                    android:id="@+id/navDeleteCarousel"
+                    android:icon="@drawable/ic_edit_event"
+                    android:title="@string/carousels" />
+            </group>
+        </menu>
+    </item>
 </menu>

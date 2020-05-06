@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -81,6 +80,12 @@ public class AddBlogActivity extends AppCompatActivity implements NavigationView
             startActivity(i);
         } else if (id == R.id.navEditPage) {
             Intent i = new Intent(this, PageActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navAddCarousel) {
+            Intent i = new Intent(this, AddCarouselActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navDeleteCarousel) {
+            Intent i = new Intent(this, CarouselActivity.class);
             startActivity(i);
         }
 
@@ -199,7 +204,6 @@ public class AddBlogActivity extends AppCompatActivity implements NavigationView
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    Toast.makeText(AddBlogActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     blogId = Integer.parseInt(response.toString());
                 }
             } catch (Exception e) {

@@ -120,6 +120,8 @@
     <string name="edit_para_header">Edit Paragraph Header</string>
     <string name="edit_para_body">Edit Paragraph Body</string>
     <string name="edit_para_image">Edit Paragraph Image</string>
+    <string name="para_del_head">Delete Paragraph</string>
+    <string name="para_del_body">Are you sure you want to delete this Paragraph? The action is not reversible.</string>
 
     <!-- View Page Strings-->
     <string name="view_page_header">View Page Header</string>
@@ -128,6 +130,18 @@
     <string name="view_page_para">View Page Paragraph Header</string>
     <string name="view_page_body">View Page Paragraph body</string>
     <string name="view_page_image">View Page Paragraph Image</string>
+
+    <!-- Carousel Strings -->
+    <string name="carousel_image">Carousel Image</string>
+    <string name="carousel_Label">Carousel Label</string>
+    <string name="carousel_body">Carousel Body</string>
+    <string name="carousel_add_label">Add Carousel Label</string>
+    <string name="carousel_add_image">Add Carousel Image</string>
+    <string name="carousel_add_body">Add Carousel Body</string>
+    <string name="save_carousel">Add Carousel</string>
+    <string name="carousels">View Carousels</string>
+    <string name="cara_del_head">Delete Carousel</string>
+    <string name="cara_del_body">Are you sure you want to delete this Carousel? The action is not reversible.</string>
 
     <!-- Remove or change this placeholder text -->
     <string name="title_activity_add_blog">Add New Blog</string>
@@ -146,5 +160,7 @@
     <string name="title_activity_view_message">View Message</string>
     <string name="title_activity_add_page">Add New Page</string>
     <string name="title_activity_view_page">View Page</string>
+    <string name="title_activity_carousel">Carousels</string>
+    <string name="title_activity_add_carousel">Add Carousel</string>
 
 </resources>

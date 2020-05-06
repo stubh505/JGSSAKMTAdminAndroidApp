@@ -126,6 +126,12 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.navEditBlog) {
             Intent i = new Intent(this, BlogActivity.class);
             startActivity(i);
+        } else if (id == R.id.navAddCarousel) {
+            Intent i = new Intent(this, AddCarouselActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navDeleteCarousel) {
+            Intent i = new Intent(this, CarouselActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -277,7 +283,7 @@ public class EditPageActivity extends AppCompatActivity implements NavigationVie
             EditText pageExcerpt = findViewById(R.id.editPageExcerptEditText);
             pageExcerpt.setText(b.getExcerpt());
 
-            adapter = new EditPageRecyclerViewAdapter(paras, getApplicationContext());
+            adapter = new EditPageRecyclerViewAdapter(paras, EditPageActivity.this);
             recyclerView.setAdapter(adapter);
         }
 

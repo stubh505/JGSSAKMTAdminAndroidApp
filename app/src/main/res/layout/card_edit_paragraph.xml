@@ -5,7 +5,8 @@
     android:id="@+id/blogCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +17,7 @@
             android:id="@+id/paraDelete"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_margin="5dp"
             android:contentDescription="@string/del_page_body"
             android:src="@drawable/ic_delete"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,11 +27,11 @@
             android:id="@+id/paraHeaderEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:ems="10"
             android:hint="@string/edit_para_header"
             android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:layout_marginTop="5dp"
+            android:inputType="textPersonName|textEmailAddress|textCapWords"
             android:textColor="@color/colorSecondaryText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/paraDelete" />
@@ -43,8 +45,8 @@
             android:hint="@string/edit_para_body"
             android:importantForAutofill="no"
             android:textColor="@color/colorSecondaryText"
-            android:lines="3"
-            android:layout_marginTop="5dp"
+            android:lines="14"
+            android:layout_margin="5dp"
             android:inputType="textMultiLine|textCapSentences"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/paraHeaderEdit" />
@@ -53,12 +55,12 @@
             android:id="@+id/paraImageEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:ems="10"
-            android:textColor="@color/colorSecondaryText"
-            android:layout_marginTop="5dp"
             android:hint="@string/edit_para_image"
             android:importantForAutofill="no"
-            android:inputType="textShortMessage"
+            android:inputType="textUri"
+            android:textColor="@color/colorSecondaryText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/paraBodyEdit" />
 
@@ -66,6 +68,7 @@
             android:id="@+id/paraTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="@string/edit_para_header"
             android:textColor="@color/colorPrimaryText"
             app:layout_constraintBottom_toTopOf="@+id/paraHeaderEdit"

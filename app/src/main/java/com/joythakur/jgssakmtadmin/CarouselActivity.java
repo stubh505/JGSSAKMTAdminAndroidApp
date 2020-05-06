@@ -1,56 +1,53 @@
 package com.joythakur.jgssakmtadmin;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.joythakur.jgssakmtadmin.ui.model.Events;
+import com.joythakur.jgssakmtadmin.ui.model.Carousel;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Timestamp;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class EventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CarouselActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ArrayList<Events> eventList;
-    private EventRecyclerViewAdapter recyclerViewAdapter;
+    private ArrayList<Carousel> carouselList;
+    private CarouselRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
+        setContentView(R.layout.activity_carousel);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(EventActivity.this, AddEventActivity.class);
+                Intent i = new Intent(CarouselActivity.this, AddCarouselActivity.class);
                 startActivity(i);
             }
         });
@@ -62,24 +59,25 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        eventList = new ArrayList<>();
 
-        GetEvents getEvents = new GetEvents();
+        carouselList = new ArrayList<>();
 
-        getEvents.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/EventsAPI/getAllEvents");
+        GetCarousels getCarousels = new GetCarousels();
 
-        recyclerViewAdapter = new EventRecyclerViewAdapter(eventList, getApplicationContext());
+        getCarousels.execute("http://jgssakmtback.herokuapp.com/jgssakmt_backend/CarouselAPI/getCarousels");
 
-        recyclerView = findViewById(R.id.eventRecyclerView);
+        recyclerViewAdapter = new CarouselRecyclerViewAdapter(carouselList, this);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView = findViewById(R.id.carouselRecyclerView);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.event, menu);
+        getMenuInflater().inflate(R.menu.carousel, menu);
         return true;
     }
 
@@ -90,14 +88,14 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
         if (id == R.id.navAddBlog) {
             Intent i = new Intent(this, AddBlogActivity.class);
             startActivity(i);
-        } else if (id == R.id.navEditBlog) {
-            Intent i = new Intent(this, BlogActivity.class);
+        } else if (id == R.id.navHome) {
+            Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         } else if (id == R.id.navAddEvent) {
             Intent i = new Intent(this, AddEventActivity.class);
             startActivity(i);
-        } else if (id == R.id.navHome) {
-            Intent i = new Intent(this, MainActivity.class);
+        } else if (id == R.id.navEditEvent) {
+            Intent i = new Intent(this, EventActivity.class);
             startActivity(i);
         } else if (id == R.id.navMessage) {
             Intent i = new Intent(this, MessageActivity.class);
@@ -111,8 +109,8 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.navAddCarousel) {
             Intent i = new Intent(this, AddCarouselActivity.class);
             startActivity(i);
-        } else if (id == R.id.navDeleteCarousel) {
-            Intent i = new Intent(this, CarouselActivity.class);
+        } else if (id == R.id.navEditBlog) {
+            Intent i = new Intent(this, BlogActivity.class);
             startActivity(i);
         }
 
@@ -121,7 +119,7 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-    private class GetEvents extends AsyncTask<String, Void, String> {
+    private class GetCarousels extends AsyncTask<String, Void, String> {
 
         JSONArray jsonArray;
 
@@ -140,20 +138,18 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
                     data = ips.read();
                 }
 
-                Events b;
+                Carousel b;
 
                 jsonArray = new JSONArray(res.toString());
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    b = new Events();
-                    b.setEventId(jsonObject.getInt("eventId"));
-                    b.setImgUrl(jsonObject.getString("imgUrl"));
-                    b.setName(jsonObject.getString("name"));
-                    b.setEndTime(Timestamp.valueOf(jsonObject.getString("endTime").replace('T', ' ')));
-                    b.setStartTime(Timestamp.valueOf(jsonObject.getString("startTime").replace('T', ' ')));
-                    b.setExcerpt(jsonObject.getString("excerpt"));
-                    eventList.add(b);
+                    b = new Carousel();
+                    b.setId(jsonObject.getInt("id"));
+                    b.setImage(jsonObject.getString("image"));
+                    b.setLabel(jsonObject.getString("label"));
+                    b.setBody(jsonObject.getString("body"));
+                    carouselList.add(b);
                 }
 
                 return res.toString();
@@ -169,26 +165,43 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
             super.onPostExecute(s);
             recyclerView.setAdapter(recyclerViewAdapter);
         }
-
     }
 
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(
-                    getApplicationContext(), 2, LinearLayoutManager.VERTICAL, false));
-        } else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(
-                    getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+    static class CallDeleteAPI extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        TextView tv = findViewById(R.id.noEvents);
-        tv.setAlpha(0.0f);
-        recyclerViewAdapter.notifyDataSetChanged();
+        @Override
+        protected String doInBackground(String... params) {
+            String urlString = params[0];
+
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("DELETE");
+                urlConnection.connect();
+
+                try(BufferedReader br = new BufferedReader(
+                        new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine;
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 }

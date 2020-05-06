@@ -122,6 +122,12 @@ public class ViewMessageActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.navEditPage) {
             Intent i = new Intent(this, PageActivity.class);
             startActivity(i);
+        } else if (id == R.id.navAddCarousel) {
+            Intent i = new Intent(this, AddCarouselActivity.class);
+            startActivity(i);
+        } else if (id == R.id.navDeleteCarousel) {
+            Intent i = new Intent(this, CarouselActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

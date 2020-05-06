@@ -13,7 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".AddCarouselActivity"
+            android:label="@string/title_activity_add_carousel"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".CarouselActivity"
+            android:label="@string/title_activity_carousel"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewPageActivity"
             android:label="@string/title_activity_view_page"
