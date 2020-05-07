@@ -169,7 +169,6 @@ public class AddCarouselActivity extends AppCompatActivity implements Navigation
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    Integer carouselId = Integer.parseInt(response.toString());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

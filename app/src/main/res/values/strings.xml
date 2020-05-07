@@ -163,4 +163,8 @@
     <string name="title_activity_carousel">Carousels</string>
     <string name="title_activity_add_carousel">Add Carousel</string>
 
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

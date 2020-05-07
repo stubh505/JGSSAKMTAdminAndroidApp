@@ -46,11 +46,11 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/navAddPage"
-                    android:icon="@drawable/ic_event"
+                    android:icon="@drawable/ic_add_page"
                     android:title="@string/title_activity_add_page" />
                 <item
                     android:id="@+id/navEditPage"
-                    android:icon="@drawable/ic_edit_event"
+                    android:icon="@drawable/ic_pages"
                     android:title="@string/title_activity_edit_page" />
             </group>
         </menu>
@@ -61,7 +61,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/navMessage"
-                    android:icon="@drawable/ic_event"
+                    android:icon="@drawable/ic_message"
                     android:title="@string/title_activity_message" />
             </group>
         </menu>
@@ -72,11 +72,11 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/navAddCarousel"
-                    android:icon="@drawable/ic_event"
+                    android:icon="@drawable/ic_add_carousel"
                     android:title="@string/title_activity_add_carousel" />
                 <item
                     android:id="@+id/navDeleteCarousel"
-                    android:icon="@drawable/ic_edit_event"
+                    android:icon="@drawable/ic_carousels"
                     android:title="@string/carousels" />
             </group>
         </menu>

@@ -7,5 +7,8 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorIcons">#212121</color>
+    <color name="colorIconsInverted">#BDBDBD</color>
     <color name="colorDivider">#BDBDBD</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>
