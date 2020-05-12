@@ -3,7 +3,9 @@
 # JGSSAKMT Admin Android App
 
 > This is the admin android app of the JGSSAKMT project.
+
 > Allows Users to add or edit events, blogs, and even pages. 
+
 > Allows Users to read messages sent by users using the contact us Page.
 
 - Structurally and funtionally complete
