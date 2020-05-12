@@ -10,5 +10,7 @@
 
 - Structurally and funtionally complete
 
+- Uses the rest endpoints of <a href="https://github.com/stubh505/JGSSAKMTbackend" target="_blank">JGSSAKMT backend</a> to add or edit the contents of the website.
+
 Access the app by downloading the apk file 
 <a href="https://drive.google.com/file/d/1o_JUOJaqJMb9mUE4gLBRv7Fhgq4Ouzmw/view?usp=sharing"> here</a>.
